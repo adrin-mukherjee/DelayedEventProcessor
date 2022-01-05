@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Id": "default",
+    "Statement": [
+      {
+        "Sid": "101",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "events.amazonaws.com"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Resource": "arn:aws:lambda:<region-code>:<account-id>:function:<target-lambda>",
+        "Condition": {
+          "ArnLike": {
+            "AWS:SourceArn": "arn:aws:events:<region-code>:<account-id>:rule/delayed_exec_rule*"
+          }
+        }
+      }
+    ]
+  }
