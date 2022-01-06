@@ -1,5 +1,7 @@
 # DelayedEventProcessor
-Sample Lambda function that can act as API backend for a API Gateway Lambda proxy integration and expects the event to have the following format:
+Sample Lambda function that can be used to schedule API requests at a specified time in the future.
+The function can act as API backend for an API Gateway Lambda proxy integration and expects the event to have the following ISO 8601 format:
+
 ```
 {
     ...
@@ -10,11 +12,6 @@ Sample Lambda function that can act as API backend for a API Gateway Lambda prox
 
 In short, the body must contain the "triggerAt" field which in turn, must carry an ISO-8601 formatted timestamp along with zone offset.
 
-The function can be configured with the following environment variables:
-- REGION: AWS region code (defaults to ap-south-1)
-- TARGET_LAMBDA_ARN: ARN of the Amazon EventBridge rule target. This function assumes another Lambda target 
-- RULE_PREFIX: The prefix used to create Amazon EventBridge rules (defaults to 'delayed_exec_rule_'). If the prefix changes, the IAM policies will also have to change
-
 The function performs the following steps:
 - Generates a correlation ID
 - Retrieves the future timestamp from "triggerAt" field and generated a cron expression
@@ -23,7 +20,17 @@ The function performs the following steps:
   (The rule name is passed so that the target Lambda can delete the rule from EventBridge once request processing is over)
 - Returns acknowledgement along with a correlation ID 
 
-Note: This sample contains 2 IAM policies that needs to be changed to reflect the correct AWS region code and AWS account ID
+### Configuration parameters
+The function can be configured with the following environment variables:
+- **REGION**: AWS region code (defaults to ap-south-1)
+- **TARGET_LAMBDA_ARN**: ARN of the Amazon EventBridge rule target. This function assumes another Lambda target 
+- **RULE_PREFIX**: The prefix used to create Amazon EventBridge rules (defaults to 'delayed_exec_rule_'). If the prefix changes, the IAM policies will also have to change
+
+
+### Note: 
+This sample contains 2 IAM policies that needs to be changed to reflect the correct AWS region code and AWS account ID
 - iam_policy-DelayedEventProcessor.json : The execution policy of this Lambda
 - target_resource_based_policy.json : The resource based policy of the target lambda
 
+### Reference:
+For further details on the solution, please refer to the following blog:  
