@@ -34,3 +34,4 @@ This sample contains 2 IAM policies that needs to be changed to reflect the corr
 
 ### Reference:
 For further details on the solution, please refer to the following blog:  
+https://adrin-mukherjee.medium.com/scheduling-api-request-processing-in-aws-85b6e7dff5f0
